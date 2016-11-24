@@ -1,0 +1,34 @@
+{
+  "name": "angular-async-validation",
+  "version": "0.0.1",
+  "description": "A multi purpose directive for input async validation",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codekraft-studio/angular-async-validation.git"
+  },
+  "keywords": [
+    "angularjs",
+    "async",
+    "validation"
+  ],
+  "author": "codekraft-studio",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/codekraft-studio/angular-async-validation/issues"
+  },
+  "homepage": "https://github.com/codekraft-studio/angular-async-validation#readme",
+  "dependencies": {
+    "angular": "^1.5.8"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-contrib-uglify": "^2.0.0",
+    "grunt-contrib-watch": "^1.0.0"
+  }
+}
