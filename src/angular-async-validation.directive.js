@@ -36,7 +36,7 @@ angular.module('angular-async-validation')
 
 		// If is a string use it as
 		// path for ajax request
-		if( angular.isString(unique) ) {
+		if( angular.isString(asyncValidation) ) {
 
 			validationFunction = function (modelValue, viewValue) {
 
@@ -44,7 +44,7 @@ angular.module('angular-async-validation')
 				var value = modelValue || viewValue;
 
 				// build the url
-				var url = unique.replace(':value', value);
+				var url = asyncValidation.replace(':value', value);
 
 				// run the request
 				return $http.get(url, {
@@ -61,12 +61,12 @@ angular.module('angular-async-validation')
 
 		// If is a function defined by users
 		// assign it to asyncValidators
-		if( angular.isFunction(unique) ) {
-			validationFunction = unique;
+		if( angular.isFunction(asyncValidation) ) {
+			validationFunction = asyncValidation;
 		}
 
 		// Add the async validator
-		ngModel.$asyncValidators.unique = validationFunction;
+		ngModel.$asyncValidators.asyncValidation = validationFunction;
 
 	}
 
