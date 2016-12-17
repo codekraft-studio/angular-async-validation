@@ -1,6 +1,6 @@
 angular.module('angular-async-validation')
 
-.directive('asyncValidation', function ($log) {
+.directive('asyncValidation', ['$log', function ($log) {
 
 	var directive = {
 		restrict: 'A',
@@ -70,4 +70,4 @@ angular.module('angular-async-validation')
 
 	}
 
-});
+}]);

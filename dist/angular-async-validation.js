@@ -1,7 +1,7 @@
 /**
 * Package: angular-async-validation - v0.0.1 
 * Description: A multi purpose directive for input async validation 
-* Last build: 2016-11-24 
+* Last build: 2016-12-17 
 * @author codekraft-studio 
 * @license ISC 
 */
@@ -9,7 +9,7 @@ angular.module('angular-async-validation', []);
 
 angular.module('angular-async-validation')
 
-.directive('asyncValidation', function ($log) {
+.directive('asyncValidation', ['$log', function ($log) {
 
 	var directive = {
 		restrict: 'A',
@@ -79,4 +79,4 @@ angular.module('angular-async-validation')
 
 	}
 
-});
+}]);
