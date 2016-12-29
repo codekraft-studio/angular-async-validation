@@ -1,6 +1,6 @@
 {
   "name": "angular-async-validation",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A multi purpose directive for input async validation",
   "main": "index.js",
   "scripts": {
