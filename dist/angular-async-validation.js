@@ -1,7 +1,7 @@
 /**
-* Package: angular-async-validation - v0.0.1 
+* Package: angular-async-validation - v0.0.2 
 * Description: A multi purpose directive for input async validation 
-* Last build: 2016-12-17 
+* Last build: 2016-12-29 
 * @author codekraft-studio 
 * @license ISC 
 */
@@ -9,7 +9,7 @@ angular.module('angular-async-validation', []);
 
 angular.module('angular-async-validation')
 
-.directive('asyncValidation', ['$log', function ($log) {
+.directive('asyncValidation', ['$log', '$http', function ($log, $http) {
 
 	var directive = {
 		restrict: 'A',
@@ -34,12 +34,13 @@ angular.module('angular-async-validation')
 
 		// If no options are specified
 		// set to the defaults
-		if( !ngModel.$options ) {
+		if( !ngModel.$options || !ngModel.$options.getOption('debounce')  ) {
 
-			ngModel.$options = {
+			ngModel.$options = ngModel.$options.createChild({
+				'*': '$inherit',
 				updateOnDefault: true,
 				debounce: 500
-			};
+			});
 
 		}
 
