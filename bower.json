@@ -1,0 +1,25 @@
+{
+  "name": "angular-async-validation",
+  "description": "A multi purpose directive for input async validation",
+  "main": "./dist/angular-async-validation.js",
+  "authors": [
+    "codekraft-studio"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "angularjs",
+    "async",
+    "validation"
+  ],
+  "homepage": "https://github.com/codekraft-studio/angular-async-validation",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.6.1"
+  }
+}
