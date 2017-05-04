@@ -66,7 +66,7 @@ describe('Angular Async Validation: Directive', function() {
 
     $rootScope.$digest();
 
-    expect( angular.isFunction(modelCtrl.$asyncValidators.asyncValidation) ).toBeTruthy();
+    expect( angular.isFunction(modelCtrl.$asyncValidators.asyncValidator) ).toBeTruthy();
 
   });
 
