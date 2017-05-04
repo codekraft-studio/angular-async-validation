@@ -1,6 +1,24 @@
 # angular-async-validation
 A multi purpose directive for input async validation
 
+### Installation
+You can install it with bower, npm or clone it from github:
+```bash
+bower install --save angular-async-validation
+npm install --save angular-async-validation
+```
+Than you need to include the script in your app:
+```html
+<script type="text/javascript" src="dist/angular-async-validation.min.js"></script>
+```
+And add the module as dependency:
+```javascript
+angular.module('app', ['angular-async-validation']);
+```
+Now you are able to use the directive: __async-validation__ in your app.
+
+---
+
 ### How it works?
 This directive is designed to be reused several times depending on the purpose.
 The directive can be used with other validation directives
@@ -17,6 +35,8 @@ When you use a string that point to a API service, like in the first example, re
 The ngModel directive is __required__ since the $asyncValidators are part of the __ngModel.NgModelController__ object.
 
 For more info see the [NgModelController](https://docs.angularjs.org/api/ng/type/ngModel.NgModelController) page.
+
+---
 
 ### Examples
 Using the directive with a custom validation function specified in the controller.
