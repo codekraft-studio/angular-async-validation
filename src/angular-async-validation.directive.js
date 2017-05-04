@@ -1,10 +1,11 @@
 angular.module('angular-async-validation')
 
-.directive('asyncValidation', ['$log', '$http', function ($log, $http) {
+.directive('asyncValidation', ['$log', '$q', '$http', function ($log, $q, $http) {
 
 	var directive = {
 		restrict: 'A',
 		require: 'ngModel',
+		scope: { asyncValidation: '=' },
 		link: _link
 	};
 
@@ -15,16 +16,13 @@ angular.module('angular-async-validation')
 		// The async validation function
 		var validationFunction;
 
-		// The attribute value
-		var asyncValidation = scope.$eval(attrs.asyncValidation);
-
-		if( !asyncValidation || !asyncValidation.length || typeof asyncValidation === 'undefined' ) {
+		// Check if the argument passed satisfy the requirements
+		if( !scope.asyncValidation && !angular.isString(scope.asyncValidation) && !angular.isFunction(scope.asyncValidation) ) {
 			$log.warn('angular-async-validation: missing or empty argument in async-validation attribute on:', elem);
 			return;
 		}
 
-		// If no options are specified
-		// set to the defaults
+		// If no options are specified set to the defaults
 		if( !ngModel.$options || !ngModel.$options.getOption('debounce')  ) {
 
 			ngModel.$options = ngModel.$options.createChild({
@@ -35,17 +33,25 @@ angular.module('angular-async-validation')
 
 		}
 
-		// If is a string use it as
-		// path for ajax request
-		if( angular.isString(asyncValidation) ) {
+		// If is a string use it as path for http request
+		if( angular.isString(scope.asyncValidation) ) {
 
 			validationFunction = function (modelValue, viewValue) {
 
 				// get the value
 				var value = modelValue || viewValue;
 
+				// Consider empty models to be valid
+				// for this type of validation
+				if (ngModel.$isEmpty(value)) {
+          return $q.resolve();;
+        }
+
+				// Init the deferred object
+				var deferred = $q.defer();
+
 				// build the url
-				var url = asyncValidation.replace(':value', value);
+				var url = scope.asyncValidation.replace(':value', value);
 
 				// run the request
 				return $http.get(url, {
@@ -62,8 +68,8 @@ angular.module('angular-async-validation')
 
 		// If is a function defined by users
 		// assign it to asyncValidators
-		if( angular.isFunction(asyncValidation) ) {
-			validationFunction = asyncValidation;
+		if( angular.isFunction(scope.asyncValidation) ) {
+			validationFunction = scope.asyncValidation;
 		}
 
 		// Add the async validator
