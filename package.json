@@ -28,6 +28,10 @@
     "grunt-contrib-jshint": "^1.1.0",
     "grunt-contrib-uglify": "^2.0.0",
     "grunt-contrib-watch": "^1.0.0",
-    "grunt-ng-annotate": "^3.0.0"
+    "grunt-ng-annotate": "^3.0.0",
+    "jasmine-core": "^2.6.1",
+    "karma": "^1.6.0",
+    "karma-jasmine": "^1.1.0",
+    "karma-phantomjs-launcher": "^1.0.4"
   }
 }
