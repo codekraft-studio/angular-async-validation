@@ -4,6 +4,14 @@ module.exports = function(grunt) {
 
     pkg: grunt.file.readJSON('package.json'),
 
+    banner: '/**\n' +
+    '* Package: <%= pkg.name %> - v<%= pkg.version %> \n' +
+    '* Description: <%= pkg.description %> \n' +
+    '* Last build: <%= grunt.template.today("yyyy-mm-dd") %> \n' +
+    '* @author <%= pkg.author %> \n' +
+    '* @license <%= pkg.license %> \n'+
+    '*/\n',
+
     jshint: {
       gruntfile: ['Gruntfile.js'],
       scripts: ['src/**/*.js']
@@ -11,13 +19,7 @@ module.exports = function(grunt) {
 
     concat: {
       options: {
-        banner: '/**\n' +
-        '* Package: <%= pkg.name %> - v<%= pkg.version %> \n' +
-        '* Description: <%= pkg.description %> \n' +
-        '* Last build: <%= grunt.template.today("yyyy-mm-dd") %> \n' +
-        '* @author <%= pkg.author %> \n' +
-        '* @license <%= pkg.license %> \n'+
-        '*/\n'
+        banner: '<%= banner %>'
       },
       dist: {
         src: ['src/<%= pkg.name %>.module.js', 'src/<%= pkg.name %>.*.js'],
@@ -28,13 +30,7 @@ module.exports = function(grunt) {
     uglify: {
       options: {
         mangle: false,
-        banner: '/**\n' +
-        '* Package: <%= pkg.name %> - v<%= pkg.version %> \n' +
-        '* Description: <%= pkg.description %> \n' +
-        '* Last build: <%= grunt.template.today("yyyy-mm-dd") %> \n' +
-        '* @author <%= pkg.author %> \n' +
-        '* @license <%= pkg.license %> \n'+
-        '*/\n'
+        banner: '<%= banner %>'
       },
       dist: {
         files: {
@@ -73,12 +69,37 @@ module.exports = function(grunt) {
           port: 8080,
           open: true,
           livereload: true,
+          hostname: 'localhost',
           base: {
             path: '.',
             options: {
               index: 'example/index.html'
             }
-          }
+          },
+          middleware: function(connect, options, middlewares) {
+
+            var url = require('url');
+
+            // inject a custom middleware into the array of default middlewares
+            middlewares.unshift(function(req, res, next) {
+
+              if (req.url.indexOf('/api/test/') === -1) return next();
+
+              var value = req.url.replace('/api/test/', '');
+
+              if( value === 'existing@mail.com' ) {
+                res.writeHead(200);
+                res.end('ok');
+                return;
+              }
+
+              res.writeHead(200);
+              res.end();
+
+            });
+
+            return middlewares;
+          },
         }
       }
     }
