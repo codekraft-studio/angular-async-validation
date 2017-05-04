@@ -5,7 +5,7 @@ angular.module('angular-async-validation')
 	var directive = {
 		restrict: 'A',
 		require: 'ngModel',
-		scope: { asyncValidation: '=' },
+		scope: { asyncValidation: '=', validatorName: '@?' },
 		link: _link
 	};
 
@@ -14,7 +14,7 @@ angular.module('angular-async-validation')
 	function _link(scope, elem, attrs, ngModel) {
 
 		// The async validation function
-		var validationFunction;
+		var validationFunction, validatorName = scope.validatorName ? scope.validatorName : 'asyncValidator';
 
 		// Check if the argument passed satisfy the requirements
 		if( !scope.asyncValidation && !angular.isString(scope.asyncValidation) && !angular.isFunction(scope.asyncValidation) ) {
@@ -38,13 +38,13 @@ angular.module('angular-async-validation')
 
 			validationFunction = function (modelValue, viewValue) {
 
-				// get the value
+				// get the current value
 				var value = modelValue || viewValue;
 
 				// Consider empty models to be valid
 				// for this type of validation
 				if (ngModel.$isEmpty(value)) {
-          return $q.resolve();;
+          return $q.resolve();
         }
 
 				// Init the deferred object
@@ -54,13 +54,21 @@ angular.module('angular-async-validation')
 				var url = scope.asyncValidation.replace(':value', value);
 
 				// run the request
-				return $http.get(url, {
+				$http.get(url, {
 					notifyError: false
 				}).then(function (response) {
-					return $q.reject();
+
+					if( !response.data ) {
+						deferred.resolve();
+					} else {
+						deferred.reject();
+					}
+					
 				}, function () {
-					return $q.resolve();
+					deferred.resolve();
 				});
+
+				return deferred.promise;
 
 			};
 
@@ -72,8 +80,8 @@ angular.module('angular-async-validation')
 			validationFunction = scope.asyncValidation;
 		}
 
-		// Add the async validator
-		ngModel.$asyncValidators.asyncValidation = validationFunction;
+		// Add the async validator (optionally using custom name)
+		ngModel.$asyncValidators[validatorName] = validationFunction;
 
 	}
 
