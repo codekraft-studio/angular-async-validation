@@ -1,6 +1,8 @@
 # angular-async-validation
 A multi purpose directive for input async validation
 
+#### [DEMO](https://codekraft-studio.github.io/angular-async-validation/)
+
 ### Installation
 You can install it with bower, npm or clone it from github:
 ```bash
