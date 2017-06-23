@@ -1,152 +1,215 @@
 <!DOCTYPE html>
 <html ng-app="app">
-  <head>
-    <meta charset="utf-8">
-    <title>Angular Async Validation | codekraft-studio</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <style>
-      header {
-        background-color: #159957;
-        background-image: linear-gradient(120deg, #155799, #159957);
-        color: whitesmoke;
-        margin-bottom: 40px;
-      }
-      header .container {
-        padding: 40px 0;
-      }
-      header h1, h2 {
-        margin: 0 0 0.2em 0;
-      }
-      header h2 {
-        margin: 0 0 0.5em 0;
-      }
-      input.ng-pending {
-        border: thin solid #ffc107 !important;
-      }
-      input.ng-invalid-async-validator {
-        border: thin solid #f44336 !important;
-      }
-      input.ng-valid-async-validator {
-        border: thin solid #4caf50 !important;
-      }
-      button[disabled], html input[disabled] {
-        cursor: not-allowed;
-      }
-    </style>
-  </head>
-  <body ng-controller="MainCtrl">
-
-    <header>
-      <div class="container">
-        <h1>angular-async-validation</h1>
-        <h2>the multi purpose async validation directive.</h2>
-      </div>
-    </header>
-
+<head>
+  <meta charset="utf-8">
+  <title>Angular Async Validation | codekraft-studio</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <style>
+  header {
+    background-color: #159957;
+    background-image: linear-gradient(120deg, #155799, #159957);
+    color: whitesmoke;
+    margin-bottom: 40px;
+  }
+  header .container {
+    padding: 40px 0;
+  }
+  header h1, h2 {
+    margin: 0 0 0.2em 0;
+  }
+  h2 {
+    margin: 0 0 0.5em 0;
+  }
+  input.ng-pending {
+    border: thin solid #ffc107 !important;
+  }
+  input.ng-invalid-async-validator {
+    border: thin solid #f44336 !important;
+  }
+  input.ng-valid-async-validator {
+    border: thin solid #4caf50 !important;
+  }
+  button[disabled], html input[disabled] {
+    cursor: not-allowed;
+  }
+  .limit-height {
+    max-height: 300px;
+    overflow: auto;
+  }
+  .glyphicon-refresh-animate {
+    -animation: spin .7s infinite linear;
+    -ms-animation: spin .7s infinite linear;
+    -webkit-animation: spinw .7s infinite linear;
+    -moz-animation: spinm .7s infinite linear;
+  }
+  
+  @keyframes spin {
+    from { transform: scale(1) rotate(0deg);}
+    to { transform: scale(1) rotate(360deg);}
+  }
+  
+  @-webkit-keyframes spinw {
+    from { -webkit-transform: rotate(0deg);}
+    to { -webkit-transform: rotate(360deg);}
+  }
+  
+  @-moz-keyframes spinm {
+    from { -moz-transform: rotate(0deg);}
+    to { -moz-transform: rotate(360deg);}
+  }
+  </style>
+</head>
+<body ng-controller="MainCtrl">
+  
+  <header>
     <div class="container">
-
-      <div class="row">
-
-        <div class="col-md-6">
-
-          <h2>Validation Example</h2>
-
-          <p>Enter a username to attempt the validation process.</p>
-
-          <form name="Form" ng-submit="addUser()">
-
-            <div class="form-group">
-
-              <div class="input-group">
-                <input type="text" class="form-control" name="username" ng-model="myModel" placeholder="Enter your username" async-validation="myValidator" required />
-                <span class="input-group-btn">
-                  <button class="btn btn-default" type="submit" ng-disabled="Form.$invalid || Form.$pending">ADD</button>
-                </span>
-              </div>
-
-            </div>
-
-            <div class="list-group">
-              <p>Already used usernames that will cause validation to fail.</p>
-              <li class="list-group-item" ng-repeat="username in usernames">{{username}}</li>
-            </div>
-
-            <h2>Backend Validation</h2>
-
-            <p>If you try this input, it will check to a simulated backend API if the email already exists.</p>
-
-            <p>The only email that will fail the test for now is this: <strong>existing@mail.com</strong> all the other emails will resolve the validation.</p>
-
-            <div class="form-group">
-              <input type="email" class="form-control" name="email" ng-model="otherModel" placeholder="Enter your email" async-validation="'api/test/:value'" required />
-              <div style="margin-top: 5px;">
-                <div class="alert alert-danger" ng-show="Form.email.$error.asyncValidator">This email is already taken.</div>
-                <div class="alert alert-success" ng-show="Form.email.$valid">This email is free to use.</div>
-              </div>
-            </div>
-
-          </form>
-
-        </div>
-
-        <div class="col-md-6">
-          <h2>Model Controller</h2>
-          <pre>{{Form.username | json}}</pre>
-        </div>
-
-      </div>
-
+      <h1>angular-async-validation</h1>
+      <h2>the multi purpose async validation directive.</h2>
     </div>
+  </header>
+  
+  <div class="container">
+    
+    <div class="row">
+      
+      <div class="col-md-6">
+        
+        <h2>Validation Example</h2>
+        
+        <p>Enter a username to attempt the validation process.</p>
+        
+        <form name="FirstForm" ng-submit="addUser()">
+          
+          <div class="form-group">
 
-  <script src="//localhost:35729/livereload.js?snipver=1" async="" defer=""></script></body>
+            <div class="input-group">
+              
+              <input 
+              type="text" 
+              class="form-control"
+              name="username" 
+              ng-model="myModel" 
+              placeholder="Enter your username" 
+              async-validation="myValidator" 
+              required 
+              />
+              
+              <span class="input-group-btn">
+                
+                <button class="btn btn-default" ng-class="{
+                  'btn-success': FirstForm.$valid,
+                  'btn-danger': FirstForm.$dirty && FirstForm.username.$invalid && !FirstForm.username.$error.required
+                }" type="submit" ng-disabled="FirstForm.$invalid || FirstForm.$pending">
+                  <span ng-show="FirstForm.$valid" class="glyphicon glyphicon-plus"></span>
+                  <span ng-show="FirstForm.$dirty && FirstForm.username.$invalid && !FirstForm.username.$error.required" class="glyphicon glyphicon-remove"></span>
+                  <span ng-show="FirstForm.$pending" class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
+                  {{ FirstForm.$pending ? 'WAIT' : 'ADD' }}
+                </button>
+                
+              </span>
+              
+            </div>
+            
+          </div>
+          
+        </form>
+        
+        <div class="list-group">
+          <p>Already used usernames that will cause <b>validation to fail</b>.</p>
+          <li class="list-group-item" ng-repeat="username in usernames">{{username}}</li>
+        </div>
+        
+        <h2>Backend Validation</h2>
+        
+        <p>If you try this input, it will check to a simulated backend API if the email already exists.</p>
+        
+        <p>The only email that will fail the test is this: <strong>existing@mail.com</strong> all the other emails will resolve the validation.</p>
+        
+        <form class="form" name="SecondForm">
+          
+          <div class="form-group">
+            <input type="email" class="form-control" name="email" ng-model="otherModel" placeholder="Enter your email" async-validation="'api/test/:value'" required />
+            <div style="margin-top: 5px;">
+              <div class="alert alert-danger" ng-show="SecondForm.email.$error.asyncValidator">This email is already taken.</div>
+              <div class="alert alert-success" ng-show="SecondForm.email.$valid">This email is free to use.</div>
+            </div>
+          </div>
+          
+        </form>
+        
+      </div>
+      
+      <div class="col-md-6">
+        
+        <div class="panel">
+          
+          <h2>Form Errors</h2>
+          <pre class="limit-height">{{ FirstForm.$error | json }}</pre>
+          
+        </div>
+        
+        <div class="panel">
+          
+          <h2>Model Controller</h2>
+          <pre class="limit-height">{{ FirstForm.username | json }}</pre>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+    
+  </div>
+  
+  <script src="//localhost:35729/livereload.js?snipver=1"></script></body>
   <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
   <script type="text/javascript" src="dist/angular-async-validation.min.js"></script>
   <script>
-
+  
   angular.module('app', ['angular-async-validation']);
-
+  
   angular.module('app')
-    .controller('MainCtrl', function($scope, $q, $timeout) {
-
+  .controller('MainCtrl', function($scope, $q, $timeout) {
+    
+    $scope.myModel = '';
+    
+    $scope.usernames = ['pippo', 'franco', 'bansky', 'skizo'];
+    
+    $scope.myValidator = function(modelValue, viewValue) {
+      
+      // get the current value
+      var value = modelValue || viewValue;
+      
+      var deferred = $q.defer();
+      
+      if( value === '' ) {
+        
+        deferred.resolve();
+        
+      } else {
+        
+        $timeout(function() {
+          
+          if( $scope.usernames.indexOf(value) === -1 ) {
+            deferred.resolve();
+          } else {
+            deferred.reject();
+          }
+          
+        }, 1000);
+        
+      }
+      
+      return deferred.promise;
+      
+    };
+    
+    $scope.addUser = function() {
+      $scope.usernames.push($scope.myModel);
       $scope.myModel = '';
-
-      $scope.usernames = ['pippo', 'franco', 'bansky', 'skizo']
-
-      $scope.myValidator = function(modelValue, viewValue) {
-
-        // get the current value
-				var value = modelValue || viewValue;
-
-        var deferred = $q.defer();
-
-        if( value === '' ) {
-
-          deferred.resolve();
-
-        } else {
-
-          $timeout(function() {
-
-            if( $scope.usernames.indexOf(value) === -1 ) {
-              deferred.resolve();
-            } else {
-              deferred.reject();
-            }
-
-          }, 1000);
-
-        }
-
-        return deferred.promise;
-
-      };
-
-      $scope.addUser = function() {
-        $scope.usernames.push($scope.myModel);
-        $scope.myModel = '';
-      };
-
-    });
-
+    };
+    
+  });
+  
   </script>
-</html>
+  </html>
