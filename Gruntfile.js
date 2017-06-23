@@ -71,10 +71,7 @@ module.exports = function(grunt) {
           livereload: true,
           hostname: 'localhost',
           base: {
-            path: '.',
-            options: {
-              index: 'example/index.html'
-            }
+            path: '.'
           },
           middleware: function(connect, options, middlewares) {
 
